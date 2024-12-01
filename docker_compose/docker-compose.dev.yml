@@ -1,0 +1,20 @@
+services:
+  main-app:
+    build: ..
+    container_name: main-app
+    ports:
+      - "${API_PORT}:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./lobby_service
+    networks:
+      - backend
+    depends_on:
+      - postgres
+    command: "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
+
+
+networks:
+  backend:
+    driver: bridge
