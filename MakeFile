@@ -1,0 +1,24 @@
+DC = docker compose
+FILE_DEV = docker_compose/docker-compose.dev.yml
+FILE_DEV = docker_compose/docker-compose.yml
+APP_CONTAINER = app
+FILE_POETRY_CONTAINER = /lobby_service/poetry.lock
+FILE_PYPROJECT_CONTAINER = /lobby_service/pyproject.toml
+
+
+LOGS = docker logs
+
+.PHONY: app-dev
+app-dev:
+	${DC} -f {FILE_DEV} up --build -d ${APP_CONTAINER}
+
+
+.PHONY: app-down
+app-down:
+	${DC} down ${APP_CONTAINER}
+
+
+.PHONY: update-deps
+update-deps: app-dev
+	${DC} cp ${APP_CONTAINER}:${FILE_POETRY_CONTAINER} . && ${DC} cp ${APP_CONTAINER}:${FILE_PYPROJECT_CONTAINER} .
+
