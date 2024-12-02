@@ -1,17 +1,17 @@
 services:
-  main-app:
-    build: ..
-    container_name: main-app
-    ports:
-      - "${API_PORT}:8000"
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+      target: prod
+    container_name: app
     env_file:
-      - .env
-    volumes:
-      - ./lobby_service
+      - ../.env
+      - ../.env.example
+    ports:
+      - "8000:8000"
     networks:
       - backend
-    depends_on:
-      - postgres
     command: "uvicorn main:app --reload --host 0.0.0.0 --port 8000"
 
 
