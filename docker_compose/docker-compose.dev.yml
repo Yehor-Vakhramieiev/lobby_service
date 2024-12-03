@@ -5,11 +5,8 @@ services:
       dockerfile: Dockerfile
       target: dev
     container_name: app
-    env_file:
-      - ../.env.example
-      - ../.env
     ports:
-      - "8000:8000"
+      - "${API_PORT}:8000"
     volumes:
       - ../app/:/lobby_service/app/
     networks:
